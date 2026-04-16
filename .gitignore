@@ -1,0 +1,22 @@
+.DS_Store
+.env
+.env.*
+*.pyc
+__pycache__/
+
+# Python environments
+.venv/
+venv/
+backend/.venv/
+
+# JavaScript dependencies and build output
+node_modules/
+frontend/node_modules/
+logo-inspired-prototype/node_modules/
+frontend/dist/
+logo-inspired-prototype/dist/
+logo-inspired-prototype/
+
+# IDE / logs
+.vscode/
+*.log
