@@ -51,53 +51,78 @@ st.set_page_config(page_title="YAP Cards", page_icon=":speech_balloon:", layout=
 st.markdown(
     """
     <style>
+    .stApp {
+        background: #ffffff;
+    }
     .block-container {
-        max-width: 760px;
-        padding-top: 0.9rem;
+        max-width: 700px;
+        padding-top: 2.1rem;
         padding-bottom: 1.8rem;
     }
     .headline {
-        margin-top: 0.35rem;
-        margin-bottom: 0.8rem;
-        color: #f8fafc;
+        margin-top: 0.6rem;
+        margin-bottom: 0.5rem;
+        color: #0f172a;
         text-align: center;
-        font-size: 1.1rem;
+        font-size: 0.9rem;
+        text-transform: lowercase;
     }
     .instruction {
-        margin-bottom: 1rem;
-        color: #cbd5e1;
+        margin-bottom: 1.25rem;
+        color: #475569;
         text-align: center;
-        font-size: 0.95rem;
+        font-size: 0.84rem;
     }
     .question-wrap {
-        margin: 0.3rem 0 1rem 0;
-        padding: 1.2rem 1rem;
-        border: 1px solid #334155;
-        border-radius: 14px;
-        background: #0f172a;
+        margin: 0.4rem auto 1.15rem auto;
+        width: min(100%, 560px);
+        min-height: 285px;
+        padding: 2rem 1.4rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        background: #ffffff;
+        box-shadow: 0 14px 40px rgba(15, 23, 42, 0.09);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .question-text {
-        color: #f8fafc;
+        color: #0f172a;
         text-align: center;
-        font-size: clamp(1.15rem, 4vw, 1.6rem);
-        line-height: 1.5;
+        font-size: clamp(1.35rem, 4vw, 1.9rem);
+        line-height: 1.42;
         margin: 0;
+        font-weight: 400;
     }
     div[data-testid="stButton"] button {
-        border-radius: 999px;
-        border: 1px solid #ea5b2d;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        width: min(100%, 560px);
+        margin: 0 auto;
+        display: block;
         color: #ea5b2d;
-        background: transparent;
-        font-weight: 600;
-        padding: 0.58rem 1rem;
+        background: #ffffff;
+        font-weight: 500;
+        font-size: 0.92rem;
+        padding: 0.7rem 1rem;
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
     }
     div[data-testid="stButton"] button:hover {
-        border-color: #ff7b4a;
-        color: #ff7b4a;
+        border: 1px solid #ea5b2d;
+        color: #ea5b2d;
+        background: #fff8f5;
     }
     @media (max-width: 480px) {
+        .block-container {
+            padding-top: 1.2rem;
+        }
         .question-wrap {
-            padding: 1.1rem 0.9rem;
+            min-height: 245px;
+            padding: 1.25rem 0.95rem;
+            border-radius: 14px;
+        }
+        .question-text {
+            font-size: 1.28rem;
         }
     }
     </style>
@@ -106,7 +131,9 @@ st.markdown(
 )
 
 if LOGO_FILE.exists():
-    st.image(str(LOGO_FILE), use_container_width=True)
+    _, logo_col, _ = st.columns([1, 1, 1])
+    with logo_col:
+        st.image(str(LOGO_FILE), width=120)
 else:
     st.title("yap")
 
@@ -134,9 +161,9 @@ else:
 
     st.button("next card", use_container_width=True, on_click=next_card)
 
-    with st.expander("previous cards"):
-        if previous_cards:
-            for card in reversed(previous_cards):
-                st.markdown(f"- {card}")
-        else:
-            st.caption("No previous cards yet.")
+    st.markdown("#### previous cards")
+    if previous_cards:
+        for card in reversed(previous_cards):
+            st.markdown(f"- {card}")
+    else:
+        st.caption("No previous cards yet.")
