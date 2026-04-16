@@ -59,20 +59,6 @@ st.markdown(
         padding-top: 2.1rem;
         padding-bottom: 1.8rem;
     }
-    .headline {
-        margin-top: 0.6rem;
-        margin-bottom: 0.5rem;
-        color: #0f172a;
-        text-align: center;
-        font-size: 0.9rem;
-        text-transform: lowercase;
-    }
-    .instruction {
-        margin-bottom: 1.25rem;
-        color: #475569;
-        text-align: center;
-        font-size: 0.84rem;
-    }
     .question-wrap {
         margin: 0.4rem auto 1.15rem auto;
         width: min(100%, 560px);
@@ -89,8 +75,8 @@ st.markdown(
     .question-text {
         color: #0f172a;
         text-align: center;
-        font-size: clamp(1.35rem, 4vw, 1.9rem);
-        line-height: 1.42;
+        font-size: clamp(1.55rem, 4.6vw, 2.25rem);
+        line-height: 1.35;
         margin: 0;
         font-weight: 400;
     }
@@ -122,7 +108,7 @@ st.markdown(
             border-radius: 14px;
         }
         .question-text {
-            font-size: 1.28rem;
+            font-size: 1.45rem;
         }
     }
     </style>
@@ -131,17 +117,11 @@ st.markdown(
 )
 
 if LOGO_FILE.exists():
-    _, logo_col, _ = st.columns([1, 1, 1])
-    with logo_col:
-        st.image(str(LOGO_FILE), width=120)
+    left, center, right = st.columns([4, 2, 4])
+    with center:
+        st.image(str(LOGO_FILE), width=95)
 else:
     st.title("yap")
-
-st.markdown('<p class="headline">how & who</p>', unsafe_allow_html=True)
-st.markdown(
-    '<p class="instruction">How to play: ask and answer one card at a time. Refresh to reset.</p>',
-    unsafe_allow_html=True,
-)
 
 questions = load_questions(QUESTIONS_FILE)
 
@@ -155,9 +135,14 @@ else:
     current = deck[index]
     previous_cards = st.session_state["seen"]
 
-    st.markdown('<div class="question-wrap">', unsafe_allow_html=True)
-    st.markdown(f'<p class="question-text">{current}</p>', unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        <div class="question-wrap">
+            <p class="question-text">{current}</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
     st.button("next card", use_container_width=True, on_click=next_card)
 
