@@ -12,10 +12,10 @@ globalStyle("html, body, #root", {
 });
 
 globalStyle("body", {
-  fontFamily: '"Biryani", sans-serif',
+  fontFamily: '"Neue Montreal", "Montserrat", sans-serif',
   vars: {
-    [primaryAccent]: "#ea5b2d",
-    [primaryAccentMuted]: "#d14a22",
+    [primaryAccent]: "#94a2c6",
+    [primaryAccentMuted]: "#7c8ab0",
   },
 });
 

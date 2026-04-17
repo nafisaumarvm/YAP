@@ -38,7 +38,7 @@ export const questionInputStyles = style({
   border: `solid 2px ${primaryAccent}`,
   borderRadius: 15,
   padding: "0.9rem 1rem",
-  fontFamily: '"Biryani", sans-serif',
+  fontFamily: '"Neue Montreal", "Montserrat", sans-serif',
   fontSize: 15,
   resize: "vertical",
   outline: "none",
@@ -62,12 +62,18 @@ export const addQuestionButtonStyles = style({
   color: primaryAccent,
   fontSize: 16,
   fontWeight: 800,
-  fontFamily: '"Biryani", sans-serif',
+  fontFamily: '"Neue Montreal", "Montserrat", sans-serif',
   border: `solid 2px ${primaryAccent}`,
   cursor: "pointer",
   ":hover": {
     backgroundColor: primaryAccentMuted,
     color: "#fff",
+  },
+  selectors: {
+    "&:disabled": {
+      opacity: 0.65,
+      cursor: "not-allowed",
+    },
   },
 });
 
@@ -134,7 +140,7 @@ export const nextCardButtonStlyes = style({
   outline: "none",
   fontSize: 18,
   fontWeight: 800,
-  fontFamily: '"Biryani", sans-serif',
+  fontFamily: '"Neue Montreal", "Montserrat", sans-serif',
   border: "none",
 
   ":hover": {

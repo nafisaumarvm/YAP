@@ -35,6 +35,7 @@ function shuffle<T>(array: T[]) {
 }
 
 const FINAL_MESSAGE = "You have finished the deck!";
+const submitEndpoint = import.meta.env.VITE_QUESTION_SUBMIT_URL as string | undefined;
 
 function App() {
   const initialDeck = React.useMemo(() => shuffle([...yapQuestions]), []);
@@ -43,6 +44,7 @@ function App() {
   const [cardHistory, setCardHistory] = React.useState<string[]>([]);
   const [visitorQuestion, setVisitorQuestion] = React.useState("");
   const [formMessage, setFormMessage] = React.useState("");
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   function handleNextCard() {
     if (!currCard || currCard === FINAL_MESSAGE) {
@@ -61,7 +63,7 @@ function App() {
     }
   }
 
-  function handleAddQuestion(event: React.FormEvent<HTMLFormElement>) {
+  async function handleAddQuestion(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const cleanQuestion = visitorQuestion.trim().replace(/\s+/g, " ");
 
@@ -70,12 +72,37 @@ function App() {
       return;
     }
 
-    setDeck((prevDeck) => [...prevDeck, cleanQuestion]);
-    if (!currCard || currCard === FINAL_MESSAGE) {
-      setCurrCard(cleanQuestion);
+    if (!submitEndpoint) {
+      setFormMessage("Submission is not configured yet.");
+      return;
     }
-    setVisitorQuestion("");
-    setFormMessage("Question added to the deck.");
+
+    try {
+      setIsSubmitting(true);
+      setFormMessage("");
+
+      const response = await fetch(submitEndpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          question: cleanQuestion,
+          submittedAt: new Date().toISOString(),
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Submission failed");
+      }
+
+      setVisitorQuestion("");
+      setFormMessage("Thanks. Your question was submitted for review.");
+    } catch (error) {
+      setFormMessage("Could not submit right now. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -94,11 +121,11 @@ function App() {
             className={questionInputStyles}
             value={visitorQuestion}
             onChange={(event) => setVisitorQuestion(event.target.value)}
-            placeholder="add your own question"
+            placeholder="submit a question for review"
             aria-label="Add your own question"
           />
-          <button className={addQuestionButtonStyles} type="submit">
-            add question
+          <button className={addQuestionButtonStyles} type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "submitting..." : "submit question"}
           </button>
           <div className={formMessageStyles}>{formMessage}</div>
         </form>
