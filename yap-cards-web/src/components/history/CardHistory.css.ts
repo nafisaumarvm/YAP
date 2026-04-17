@@ -10,6 +10,11 @@ export const historyStyles = style({
   alignContent: "center",
   alignItems: "center",
   padding: 5,
+  "@media": {
+    "(max-width: 900px)": {
+      maxWidth: "min(26rem, 92vw)",
+    },
+  },
 });
 
 export const historyTitleStyles = style({
@@ -32,6 +37,13 @@ export const cardContainerStyles = style({
   margin: 10,
   borderRadius: 15,
   border: `solid 2px ${primaryAccent}`,
+  "@media": {
+    "(max-width: 900px)": {
+      minHeight: "18rem",
+      maxHeight: "18rem",
+      margin: "0.5rem 0",
+    },
+  },
 });
 
 export const cardContainerScrollStyles = style({

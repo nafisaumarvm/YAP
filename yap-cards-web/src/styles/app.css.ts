@@ -13,7 +13,19 @@ export const appStyles = style({
   justifyContent: "space-evenly",
   maxWidth: 1080,
   margin: "0 auto",
-  height: "100%",
+  minHeight: "100%",
+  height: "auto",
+  padding: "1rem 0 2rem",
+  "@media": {
+    "(max-width: 900px)": {
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      flexWrap: "nowrap",
+      gap: "0.75rem",
+      padding: "0.75rem 0 2rem",
+    },
+  },
 });
 
 export const titleStyles = style({
@@ -21,6 +33,13 @@ export const titleStyles = style({
   marginBottom: "3vh",
   width: "12rem",
   height: "auto",
+  "@media": {
+    "(max-width: 900px)": {
+      marginTop: "1rem",
+      marginBottom: "1rem",
+      width: "9rem",
+    },
+  },
 });
 
 export const addQuestionFormStyles = style({
@@ -90,6 +109,11 @@ export const levelsStyles = style({
   alignContent: "center",
   alignItems: "center",
   width: "17rem",
+  "@media": {
+    "(max-width: 900px)": {
+      display: "none",
+    },
+  },
 });
 
 export const levelButtonStyles = style({
@@ -156,4 +180,9 @@ export const questionStyles = style({
   width: "26rem",
   textTransform: "uppercase",
   alignItems: "center",
+  "@media": {
+    "(max-width: 900px)": {
+      width: "min(26rem, 92vw)",
+    },
+  },
 });

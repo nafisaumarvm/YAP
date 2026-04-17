@@ -25,6 +25,18 @@ export const creditStyles = style({
     maxHeight: 1000,
     transition: "max-height 1.2s ease-in-out",
   },
+  "@media": {
+    "(max-width: 900px)": {
+      position: "static",
+      width: "min(26rem, 92vw)",
+      maxHeight: "none",
+      height: "auto",
+      margin: "0 auto",
+      borderLeft: "none",
+      borderTop: `1px solid ${primaryAccent}`,
+      padding: "0.5rem 0.75rem",
+    },
+  },
 });
 
 export const creditTitleStyles = style({
