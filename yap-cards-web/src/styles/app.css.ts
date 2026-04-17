@@ -17,11 +17,64 @@ export const appStyles = style({
 });
 
 export const titleStyles = style({
-  color: primaryAccent,
-  fontSize: 30,
   marginTop: "3vh",
   marginBottom: "3vh",
+  width: "12rem",
+  height: "auto",
+});
+
+export const addQuestionFormStyles = style({
+  width: "100%",
+  marginTop: 8,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: 10,
+});
+
+export const questionInputStyles = style({
+  width: "100%",
+  minHeight: 84,
+  border: `solid 2px ${primaryAccent}`,
+  borderRadius: 15,
+  padding: "0.9rem 1rem",
+  fontFamily: '"Biryani", sans-serif',
+  fontSize: 15,
+  resize: "vertical",
+  outline: "none",
+  selectors: {
+    "&:focus": {
+      boxShadow: `0 0 0 2px ${primaryAccentMuted}`,
+    },
+  },
+});
+
+export const addQuestionButtonStyles = style({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: 15,
+  backgroundColor: "#fff",
+  height: 52,
+  width: 231,
+  textTransform: "uppercase",
+  marginTop: "3vh",
+  color: primaryAccent,
+  fontSize: 16,
   fontWeight: 800,
+  fontFamily: '"Biryani", sans-serif',
+  border: `solid 2px ${primaryAccent}`,
+  cursor: "pointer",
+  ":hover": {
+    backgroundColor: primaryAccentMuted,
+    color: "#fff",
+  },
+});
+
+export const formMessageStyles = style({
+  color: primaryAccent,
+  fontSize: 13,
+  minHeight: 18,
 });
 
 export const levelsStyles = style({
