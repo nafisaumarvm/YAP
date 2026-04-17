@@ -35,16 +35,17 @@ function shuffle<T>(array: T[]) {
 }
 
 const FINAL_MESSAGE = "You have finished the deck!";
-const submitEndpoint = import.meta.env.VITE_QUESTION_SUBMIT_URL as string | undefined;
 
 function App() {
   const initialDeck = React.useMemo(() => shuffle([...yapQuestions]), []);
   const [deck, setDeck] = React.useState(initialDeck);
   const [currCard, setCurrCard] = React.useState(deck[0]);
   const [cardHistory, setCardHistory] = React.useState<string[]>([]);
-  const [visitorQuestion, setVisitorQuestion] = React.useState("");
-  const [formMessage, setFormMessage] = React.useState("");
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [formMessage] = React.useState(() =>
+    new URLSearchParams(window.location.search).has("submitted")
+      ? "Thanks. Your question was submitted for review."
+      : "Submitted questions are reviewed before publishing.",
+  );
 
   function handleNextCard() {
     if (!currCard || currCard === FINAL_MESSAGE) {
@@ -63,48 +64,6 @@ function App() {
     }
   }
 
-  async function handleAddQuestion(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const cleanQuestion = visitorQuestion.trim().replace(/\s+/g, " ");
-
-    if (!cleanQuestion) {
-      setFormMessage("Please enter a question before adding.");
-      return;
-    }
-
-    if (!submitEndpoint) {
-      setFormMessage("Submission is not configured yet.");
-      return;
-    }
-
-    try {
-      setIsSubmitting(true);
-      setFormMessage("");
-
-      const response = await fetch(submitEndpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          question: cleanQuestion,
-          submittedAt: new Date().toISOString(),
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Submission failed");
-      }
-
-      setVisitorQuestion("");
-      setFormMessage("Thanks. Your question was submitted for review.");
-    } catch (error) {
-      setFormMessage("Could not submit right now. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }
-
   return (
     <div className={appStyles}>
       <Credits />
@@ -116,16 +75,29 @@ function App() {
         <button className={nextCardButtonStlyes} onClick={() => handleNextCard()}>
           next card
         </button>
-        <form className={addQuestionFormStyles} onSubmit={handleAddQuestion}>
+        <form
+          className={addQuestionFormStyles}
+          name="question-submission"
+          method="POST"
+          action="/?submitted=true"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+        >
+          <input type="hidden" name="form-name" value="question-submission" />
+          <p hidden>
+            <label>
+              Don't fill this out: <input name="bot-field" />
+            </label>
+          </p>
           <textarea
             className={questionInputStyles}
-            value={visitorQuestion}
-            onChange={(event) => setVisitorQuestion(event.target.value)}
+            name="question"
             placeholder="submit a question for review"
             aria-label="Add your own question"
+            required
           />
-          <button className={addQuestionButtonStyles} type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "submitting..." : "submit question"}
+          <button className={addQuestionButtonStyles} type="submit">
+            submit question
           </button>
           <div className={formMessageStyles}>{formMessage}</div>
         </form>

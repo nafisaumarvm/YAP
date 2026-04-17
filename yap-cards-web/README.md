@@ -10,21 +10,10 @@ npm run dev
 
 ## Visitor question review queue
 
-Visitor-submitted questions are sent to an external endpoint (not injected into the live deck).
+Visitor-submitted questions use a Netlify form (not injected into the live deck).
 
-1. Copy env template:
-   ```bash
-   cp env.sample .env
-   ```
-2. Set `VITE_QUESTION_SUBMIT_URL` to your webhook URL.
-3. The app will POST JSON:
-   ```json
-   {
-     "question": "string",
-     "submittedAt": "ISO-8601 timestamp"
-   }
-   ```
+Netlify detects a hidden build-time form in `index.html` and receives submissions from the visible form in `App.tsx`.
 
-For Google Sheets, use a Google Apps Script Web App URL as the endpoint, review submissions in-sheet, then copy approved questions into `src/assets/questions.ts` once daily.
+Review submissions in your Netlify dashboard, then copy approved questions into `src/assets/questions.ts` once daily.
 
 Original WNRS UI and concept by [@munjoonteo](https://github.com/munjoonteo) and [@ilyues](https://github.com/ilyues).
