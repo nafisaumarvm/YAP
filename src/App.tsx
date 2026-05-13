@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 
-import { levelOne, levelThree, levelTwo } from "./assets/levels";
+import { questions } from "./assets/levels";
 import Card from "./components/card/Card";
 import { bigCardStyles } from "./components/card/Card.css";
 import Credits from "./components/credits/Credits";
@@ -38,9 +38,7 @@ function shuffle<T>(array: T[]) {
 
 function App() {
   const levels = {
-    levelOne: shuffle(levelOne),
-    levelTwo: shuffle(levelTwo),
-    levelThree: shuffle(levelThree),
+    questions: shuffle(questions)
   };
 
   const [gameState] = React.useState(levels);
