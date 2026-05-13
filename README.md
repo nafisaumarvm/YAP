@@ -1,6 +1,6 @@
 # YAP
 
-Play YAP on your browser [here]([https://yaptheapp.com/])!
+Play YAP on your browser [here](https://yaptheapp.com/)!
 
 Questions and new additions (submission box, upvoting) by [@nafisaumarvm](https://github.com/nafisaumarvm)
 
