@@ -6,10 +6,12 @@ const Credits = () => {
       <div className={creditTitleStyles}>how & who</div>
       <div className={contStyles}>
         <b>How to play:</b> <br />
-        Progress from level to level. Become more than strangers, one card at a time.
+        Become more than strangers, one card at a time.
         <p>Refresh to reset card decks.</p>{" "}
+        <p>Add questions via the submission form. Questions will be automatically checked for appropriateness and added to the voting page on a daily basis.</p>{" "}
         <p>
-          Made by <a href="https://github.com/munjoonteo">@munjoonteo</a> and{" "}
+          Questions and new additions (question submission box, upvoting) by <a href="https://github.com/nafisaumarvm">nafisaumarvm</a>
+          Original design by <a href="https://github.com/munjoonteo">@munjoonteo</a> and{" "}
           <a href="https://github.com/ilyues">@ilyues</a>.
         </p>
       </div>
