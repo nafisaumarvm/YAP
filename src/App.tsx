@@ -1,33 +1,21 @@
-import clsx from "clsx";
 import React from "react";
+import { Link } from "react-router-dom";
 
 import { questions } from "./assets/levels";
 import Card from "./components/card/Card";
 import { bigCardStyles } from "./components/card/Card.css";
 import Credits from "./components/credits/Credits";
 import CardHistory from "./components/history/CardHistory";
-import {
-  appStyles,
-  levelButtonStyles,
-  levelsStyles,
-  nextCardButtonStlyes,
-  questionStyles,
-  selectedLevelStyles,
-  titleStyles,
-} from "./styles/app.css";
+import { appStyles, nextCardButtonStlyes, questionStyles, titleStyles } from "./styles/app.css";
 
 function shuffle<T>(array: T[]) {
   let currentIndex = array.length;
-  let temporaryValue;
-  let randomIndex;
+  let temporaryValue: T;
+  let randomIndex: number;
 
-  // While there remain elements to shuffle...
   while (0 !== currentIndex) {
-    // Pick a remaining element...
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-
-    // And swap it with the current element.
     temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
@@ -37,67 +25,38 @@ function shuffle<T>(array: T[]) {
 }
 
 function App() {
-  const levels = {
-    questions: shuffle(questions)
-  };
-
-  const [gameState] = React.useState(levels);
-  const [currLevel, setLevel] = React.useState(Object.keys(levels)[0] as keyof typeof levels);
-  const [currCard, setCurrCard] = React.useState(levels[currLevel][0]);
+  const [deck] = React.useState(() => shuffle([...questions]));
+  const [index, setIndex] = React.useState(0);
   const [cardHistory, setCardHistory] = React.useState<string[]>([]);
 
-  type levelKey = keyof typeof levels;
-
-  function handleChangeLevel(newLevel: levelKey) {
-    setLevel(newLevel);
-    if (gameState[newLevel].length === 1) {
-      const finalMessage = "You have finished this level!";
-      setCurrCard(finalMessage);
-    } else {
-      setCurrCard(gameState[newLevel][0]);
-    }
-  }
-
-  const buttons = (Object.keys(levels) as levelKey[]).map((level) => (
-    <button
-      className={clsx(levelButtonStyles, { [selectedLevelStyles]: level === currLevel })}
-      onClick={() => handleChangeLevel(level)}
-      key={level}
-    >
-      {level.split(/(?=[A-Z])/).join(" ")}
-    </button>
-  ));
+  const finished = index >= deck.length;
+  const currCard = finished ? "" : deck[index];
 
   function handleNextCard() {
-    const finalMessage = "You have finished this level!";
-    if (gameState[currLevel].length === 1) {
-      if (currCard === finalMessage) {
-        return;
-      } else {
-        const tempHistory = [currCard, ...cardHistory];
-        setCardHistory(tempHistory);
-        setCurrCard(finalMessage);
-      }
-    } else {
-      const tempHistory = [currCard, ...cardHistory];
-      setCardHistory(tempHistory);
-      gameState[currLevel].shift();
-      setCurrCard(gameState[currLevel][0]);
-    }
+    if (finished) return;
+    setCardHistory((prev) => [deck[index], ...prev]);
+    setIndex((prev) => prev + 1);
   }
 
   return (
     <div className={appStyles}>
       <Credits />
-      <div className={levelsStyles}>{buttons}</div>
       <div className={questionStyles}>
-        <div className={titleStyles}>wnrs</div>
-        <Card styleName={bigCardStyles} question={currCard} />
-        <button className={nextCardButtonStlyes} onClick={() => handleNextCard()}>
+        <div className={titleStyles}>yap</div>
+        {finished ? (
+          <p> you have reached the end, submit more questions yourself to continue :)</p>
+        ) : (
+          <Card styleName={bigCardStyles} question={currCard} />
+        )}
+        <button className={nextCardButtonStlyes} onClick={handleNextCard} disabled={finished}>
           next card
         </button>
       </div>
       <CardHistory cardHistory={cardHistory} />
+      <div>
+        <Link to="/submit">submit a question</Link>
+        <Link to="/vote">vote on questions</Link>
+      </div>
     </div>
   );
 }
